@@ -23,13 +23,13 @@ share a single `.env` file for credentials.
    cp .env.example .env
    ```
 
-2. Open **`kredivo-00-setup.ipynb`** and run it top to bottom. It checks your Python/venv setup,
+2. Open **`Fintect-00-setup.ipynb`** and run it top to bottom. It checks your Python/venv setup,
    installs dependencies, validates `.env`, and (optionally) checks the Confluent CLI, then runs a
    live connectivity smoke test against your cluster.
 
 ## Notebooks
 
-### `kredivo-00-setup.ipynb` -- Part 0: Environment Setup
+### `Fintect-00-setup.ipynb` -- Part 0: Environment Setup
 
 Run this **first**. It doesn't touch Confluent Cloud resources itself (aside from a read-only
 connectivity check) -- it just verifies everything the other three notebooks assume is already in
@@ -45,7 +45,7 @@ place:
 
 Every check prints ✅ / ⚠️ / ❌ so you can see at a glance what still needs fixing before moving on.
 
-### `kredivo-01.ipynb` -- Part 1: Schema Registry, Data Contracts & CSFLE
+### `Fintect-01.ipynb` -- Part 1: Schema Registry, Data Contracts & CSFLE
 
 Demonstrates Confluent Cloud Schema Registry's governance features on a `bnpl_transactions_<you>`
 topic (topic name namespaced by your `PARTICIPANT_ID` or OS username):
@@ -67,7 +67,7 @@ topic (topic name namespaced by your `PARTICIPANT_ID` or OS username):
 
 Ends with a **Cleanup** cell (`CLEANUP = True`) that deletes both topics and their schema subjects.
 
-### `kredivo-02.ipynb` -- Part 2: Flink Stream Processing
+### `Fintect-02.ipynb` -- Part 2: Flink Stream Processing
 
 Picks up from Part 1 and uses **Confluent Cloud Flink SQL** to process a stream of orders, all
 namespaced under `orders_..._<you>` / `product_catalog_<you>` topics:
@@ -93,7 +93,7 @@ Flink cell prints the SQL/command it would have run instead of failing. Ends wit
 cell that tears down all six topics, their schema subjects, and any Flink statements tagged with
 your participant namespace.
 
-### `kredivo-03.ipynb` -- Part 3: Tableflow
+### `Fintect-03.ipynb` -- Part 3: Tableflow
 
 Picks up from Part 2's `orders_enriched_<you>` topic and uses **Tableflow** to turn it into a
 first-class **Apache Iceberg table**, queryable by any Iceberg-aware engine with zero Kafka client
@@ -124,10 +124,10 @@ from `.env` since each notebook normally runs in a separate Jupyter kernel.
 
 | File | Purpose |
 |---|---|
-| `kredivo-00-setup.ipynb` | Environment/credentials checks -- run first |
-| `kredivo-01.ipynb` | Schema Registry, Data Contracts, CSFLE |
-| `kredivo-02.ipynb` | Flink SQL: dedup, filter, enrich |
-| `kredivo-03.ipynb` | Tableflow: Iceberg tables over the enriched topic |
+| `Fintect-00-setup.ipynb` | Environment/credentials checks -- run first |
+| `Fintect-01.ipynb` | Schema Registry, Data Contracts, CSFLE |
+| `Fintect-02.ipynb` | Flink SQL: dedup, filter, enrich |
+| `Fintect-03.ipynb` | Tableflow: Iceberg tables over the enriched topic |
 | `.env.example` | Template for the credentials every notebook reads from `.env` |
 | `.env` | Your actual credentials (git-ignored, never committed) |
 | `.gitignore` | Excludes `.env`, `.venv/`, local backups, and OS/cache files |
